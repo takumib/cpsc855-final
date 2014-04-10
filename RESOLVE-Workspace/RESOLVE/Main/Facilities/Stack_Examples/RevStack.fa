@@ -1,0 +1,50 @@
+-- an example of a stack with with local operations to read/write
+Facility RevStack;
+	uses String_Theory;
+	
+	Facility Rev_Stack_Fac is Stack_Template(Char_Str, 4)
+		realized by Array_Realiz;
+
+	Operation Read_Stack(replaces S: Stack);
+	Procedure			
+		Var CS: Char_Str;
+		Var I: Integer;	
+		Clear(S);
+		While (I < 4)
+			changing CS, I, S;
+			maintaining true;
+			decreasing 4 - I;
+		do
+			Read(CS);
+			Push(CS, S);
+			Increment(I);
+		end;
+	end Read_Stack;
+
+	Operation Write_Stack(clears S: Stack);
+	Procedure
+		Var CS: Char_Str;
+		Var I, D: Integer;
+
+		D := Depth(S);
+		While (I < D)
+			changing CS, I, S;
+			maintaining true;
+			decreasing 4 - I;
+		do
+			Rev_Stack_Fac.Pop(CS, S);
+			Write_Line(CS);
+			Std_Integer_Fac.Increment(I);
+		end;
+	end Write_Stack;
+
+	Operation Main();
+	Procedure
+		Var S: Stack;
+		Read_Stack(S);
+		Write_Line("REVERSED ORDER");
+		Write_Stack(S);
+		Write_Line("CLEARED STACK");
+		Write_Stack(S);
+	end Main;
+end RevStack;

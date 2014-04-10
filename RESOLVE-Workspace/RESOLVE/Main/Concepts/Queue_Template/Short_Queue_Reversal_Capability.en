@@ -1,0 +1,5 @@
+Enhancement Short_Queue_Reversal_Capability for Queue_Template;
+    Operation SQ_Reverse(updates Q: Queue);
+        requires |Q| = 2;
+        ensures Q = Reverse(#Q);
+end Short_Queue_Reversal_Capability;
