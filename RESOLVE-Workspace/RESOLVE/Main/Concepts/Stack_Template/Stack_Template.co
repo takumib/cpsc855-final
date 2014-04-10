@@ -1,0 +1,18 @@
+Concept Stack_Template(type Entry; evaluates Max_Depth: Integer);
+        uses String_Theory, Integer_Theory;
+        requires Max_Depth > 0;
+
+    Type Family Stack is modeled by Str(Entry);
+        exemplar S;
+        constraint |S| <= Max_Depth;
+        initialization ensures S = Empty_String;
+	end;
+
+    Operation Pop(replaces R: Entry; updates S: Stack);
+        requires |S| /= 0;
+        ensures #S = <R> o S;
+
+    Operation Rem_Capacity(restores S: Stack): Integer;
+        ensures Rem_Capacity = (Max_Depth - |S|);
+
+end;

@@ -1,0 +1,14 @@
+Concept Leds_Template(evaluates Strip_Length : Integer);
+	uses Boolean_Theory, String_Theory;
+
+    Type Family Led is modeled by Str(B);
+        exemplar L;
+        constraint |L| <= Strip_Length;
+        initialization ensures true;
+	end;
+
+	Operation Toggle(updates L : Led; evaluates I : Integer);
+		requires I >= 0 and I <= |L|;
+		ensures Element_At(I, L) = not #Element_At(I, L);
+
+end Leds_Template;
