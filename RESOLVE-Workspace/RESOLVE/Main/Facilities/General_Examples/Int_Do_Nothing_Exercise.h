@@ -6,8 +6,8 @@
 #define __INT_DO_NOTHING_EXERCISE_H
 
 #include "../../../RESOLVE.h"
-#include "../../../Main/Concepts/Standard/Static_Array_Template/Static_Array_Template.h"
-#include "../../../Main/Concepts/Standard/Location_Linking_Template_1/Location_Linking_Template_1.h"
+//#include "../../../Main/Concepts/Standard/Static_Array_Template/Static_Array_Template.h"
+//#include "../../../Main/Concepts/Standard/Location_Linking_Template_1/Location_Linking_Template_1.h"
 #include "../../../Main/Facilities/Standard/Std_Boolean_Fac.h"
 #include "../../../Main/Facilities/Standard/Std_Integer_Fac.h"
 

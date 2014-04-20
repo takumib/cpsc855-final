@@ -20,7 +20,12 @@ void Do_Nothing(r_type_ptr I) {
 
 void Main() {
 	r_type_ptr X = Std_Integer_Fac_Var.core->Integer->create(Std_Integer_Fac_Var.core->Integer);
-
+	X = Std_Integer_Fac_Var.core->createFromInteger(0x01, Std_Integer_Fac_Var.core->Integer);
+	Std_Integer_Fac_Var.core->Write_Line(X, Std_Integer_Fac_Var.core);
+    Std_Integer_Fac_Var.core->Integer->destroy(X, Std_Integer_Fac_Var.core->Integer);
+    Std_Integer_Fac_Var.core->Write_Line(X, Std_Integer_Fac_Var.core);
+    printf("Done Running\n");
+	
 }
 
 int main() {

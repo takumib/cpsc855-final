@@ -5,6 +5,7 @@
 #include <string.h>
 #include <stdio.h>
 #include <stdarg.h>
+#include "naive_malloc.h"
 
 typedef void* rtype;
 typedef rtype* r_type_ptr;

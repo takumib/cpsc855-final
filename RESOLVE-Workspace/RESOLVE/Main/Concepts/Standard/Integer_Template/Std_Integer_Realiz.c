@@ -5,48 +5,52 @@ static int ValueOf(r_type_ptr r) {
     return **(int**)r;
 }
 
+static void assign(r_type_ptr r, r_type_ptr i, IntegerTemplate* this) {
+	**(int**)r = **(int**)i;	
+}
+
 static r_type_ptr createFromInteger(int I, type_info* ti) {
-	int *space = calloc(1, sizeof(int));
+	int *space = scalloc(1, sizeof(int));
 	*space = I;
-	int** ret = malloc(sizeof(int*));
+	int** ret = salloc(sizeof(int*));
 	*ret = space;
 	return (r_type_ptr)ret;
 }
 
 static r_type_ptr createInteger(type_info* ti) {
-    int* t = calloc(1, sizeof(int));
+    int* t = scalloc(1, sizeof(int));
     *t = 0;
-    int** ret = malloc(sizeof(int*));
+    int** ret = salloc(sizeof(int*));
     *ret = t;
     return (r_type_ptr)ret;
 }
 
 static void destroyInteger (r_type_ptr r, type_info* ti) {
-    free(*r);
-    free(r);
+    sfree(*r);
+    sfree(r);
 }
 
 static type_info* newInteger() {
-    type_info* pc = calloc(1, sizeof(type_info));
+    type_info* pc = scalloc(1, sizeof(type_info));
     pc->create = createInteger;
     pc->destroy = destroyInteger;
     return pc;
 }
 
 static r_type_ptr Is_Zero(r_type_ptr i, Integer_Template* this) {
-	int *space = calloc(1, sizeof(int));
+	int *space = scalloc(1, sizeof(int));
 	*space = (**(int**)i == 0);
 
-	int** ret = malloc(sizeof(int*));
+	int** ret = salloc(sizeof(int*));
 	*ret = space;
 	return (r_type_ptr)ret;
 }
 
 static r_type_ptr Is_Not_Zero(r_type_ptr i, Integer_Template* this) {
-	int *space = calloc(1, sizeof(int));
+	int *space = scalloc(1, sizeof(int));
 	*space = (**(int**)i != 0);
 
-	int** ret = malloc(sizeof(int*));
+	int** ret = salloc(sizeof(int*));
 	*ret = space;
 	return (r_type_ptr)ret;
 }
@@ -60,91 +64,91 @@ static void Decrement(r_type_ptr i, Integer_Template* this) {
 }
 
 static r_type_ptr Less_Or_Equal(r_type_ptr i1, r_type_ptr i2, Integer_Template* this) {
-	int *space = calloc(1, sizeof(int));
+	int *space = scalloc(1, sizeof(int));
 	*space = ((**(int**)i1 <= (**(int**)i2)));
 
-	int** ret = malloc(sizeof(int*));
+	int** ret = salloc(sizeof(int*));
 	*ret = space;
 	return (r_type_ptr)ret;
 }
 
 static r_type_ptr Less(r_type_ptr i1, r_type_ptr i2, Integer_Template* this) {
-	int *space = calloc(1, sizeof(int));
+	int *space = scalloc(1, sizeof(int));
 	*space = ((**(int**)i1 < (**(int**)i2)));
 
-	int** ret = malloc(sizeof(int*));
+	int** ret = salloc(sizeof(int*));
 	*ret = space;
 	return (r_type_ptr)ret;
 }
 
 static r_type_ptr Greater(r_type_ptr i1, r_type_ptr i2, Integer_Template* this) {
-	int *space = calloc(1, sizeof(int));
+	int *space = scalloc(1, sizeof(int));
 	*space = ((**(int**)i1 > (**(int**)i2)));
 
-	int** ret = malloc(sizeof(int*));
+	int** ret = salloc(sizeof(int*));
 	*ret = space;
 	return (r_type_ptr)ret;
 }
 
 static r_type_ptr Greater_Or_Equal(r_type_ptr i1, r_type_ptr i2, Integer_Template* this) {
-	int *space = calloc(1, sizeof(int));
+	int *space = scalloc(1, sizeof(int));
 	*space = ((**(int**)i1 >= (**(int**)i2)));
 
-	int** ret = malloc(sizeof(int*));
+	int** ret = salloc(sizeof(int*));
 	*ret = space;
 	return (r_type_ptr)ret;
 }
 
 static r_type_ptr Sum(r_type_ptr i1, r_type_ptr i2, Integer_Template* this) {
-	int *space = calloc(1, sizeof(int));
+	int *space = scalloc(1, sizeof(int));
 	*space = **(int**)i1 + **(int**)i2;
 
-	int** ret = malloc(sizeof(int*));
+	int** ret = salloc(sizeof(int*));
 	*ret = space;
 	return (r_type_ptr)ret;
 }
 
 static r_type_ptr Negate(r_type_ptr i, Integer_Template* this) {
-	int *space = calloc(1, sizeof(int));
+	int *space = scalloc(1, sizeof(int));
 	*space = -(**(int**)i);
 
-	int** ret = malloc(sizeof(int*));
+	int** ret = salloc(sizeof(int*));
 	*ret = space;
 	return (r_type_ptr)ret;
 }
 
 static r_type_ptr Difference(r_type_ptr i1, r_type_ptr i2, Integer_Template* this) {
-	int *space = calloc(1, sizeof(int));
+	int *space = scalloc(1, sizeof(int));
 	*space = (**(int**)i1) - (**(int**)i2);
 
-	int** ret = malloc(sizeof(int*));
+	int** ret = salloc(sizeof(int*));
 	*ret = space;
 	return (r_type_ptr)ret;
 }
 
 static r_type_ptr Product(r_type_ptr i1, r_type_ptr i2, Integer_Template* this) {
-	int *space = calloc(1, sizeof(int));
+	int *space = scalloc(1, sizeof(int));
 	*space = (**(int**)i1) * (**(int**)i2);
 
-	int** ret = malloc(sizeof(int*));
+	int** ret = salloc(sizeof(int*));
 	*ret = space;
 	return (r_type_ptr)ret;
 }
 
 static r_type_ptr Max_Int(Integer_Template* this) {
-	int *space = calloc(1, sizeof(int));
+	int *space = scalloc(1, sizeof(int));
 	*space = **(int**)INT_MAX;
 
-	int** ret = malloc(sizeof(int*));
+	int** ret = salloc(sizeof(int*));
 	*ret = space;
 	return (r_type_ptr)ret;
 }
 
 static r_type_ptr Min_Int(Integer_Template* this) {
-	int *space = calloc(1, sizeof(int));
+	int *space = scalloc(1, sizeof(int));
 	*space = **(int**)INT_MIN;
 
-	int** ret = malloc(sizeof(int*));
+	int** ret = salloc(sizeof(int*));
 	*ret = space;
 	return (r_type_ptr)ret;
 }
@@ -166,7 +170,7 @@ static void Write_Line(r_type_ptr i, Integer_Template* this) {
 }
 
 extern Integer_Template* new_Std_Integer_Realiz_for_Integer_Template() {
-    Integer_Template* I = malloc(sizeof(Integer_Template));
+    Integer_Template* I = salloc(sizeof(Integer_Template));
     I -> Is_Zero = Is_Zero;
     I -> Is_Not_Zero = Is_Not_Zero;
     I -> Increment = Increment;
@@ -194,7 +198,7 @@ extern Integer_Template* new_Std_Integer_Realiz_for_Integer_Template() {
     return I;
 }
 
-extern void free_Std_Integer_Realiz_for_Integer_Template(Integer_Template* toFree) {
-    free(toFree->Integer);
-    free(toFree);
+extern void free_Std_Integer_Realiz_for_Integer_Template(Integer_Template* tofree) {
+    sfree(tofree->Integer);
+    sfree(tofree);
 }
