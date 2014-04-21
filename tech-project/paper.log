@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2013.5.30)  20 APR 2014 23:46
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2013.5.30)  20 APR 2014 23:55
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -263,11 +263,7 @@ File: listings.cfg 2007/02/22 1.4 listings configuration
 ))
 Package: listings 2007/02/22 1.4 (Carsten Heinz)
 
-(./paper.aux
-
-LaTeX Warning: Label `fig:imp' multiply defined.
-
-)
+(./paper.aux)
 \openout1 = `paper.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 11.
@@ -282,7 +278,8 @@ LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 11.
 LaTeX Font Info:    ... okay on input line 11.
 LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 11.
 LaTeX Font Info:    ... okay on input line 11.
- (/usr/local/texlive/2013/texmf-dist/tex/context/base/supp-pdf.mkii
+
+(/usr/local/texlive/2013/texmf-dist/tex/context/base/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count125
 \scratchdimen=\dimen142
@@ -383,36 +380,34 @@ Overfull \hbox (5.05437pt too wide) in paragraph at lines 104--105
 ing RE-SOLVE math
  []
 
-[2] <figs/implementation.pdf, id=22, 1101.11375pt x 367.3725pt>
-File: figs/implementation.pdf Graphic file (type pdf)
+[2]
 
-<use figs/implementation.pdf>
-Package pdftex.def Info: figs/implementation.pdf used on input line 159.
-(pdftex.def)             Requested size: 495.49661pt x 165.31609pt.
-
-Overfull \hbox (25.51324pt too wide) in paragraph at lines 166--167
-[]\T1/aer/m/n/9 In this sec-tion we ver-ify our re-al-iza-tion of \T1/aett/m/n/
-9 Toggling_Capability\T1/aer/m/n/9 .
- []
+LaTeX Font Warning: Font shape `T1/aett/bx/n' undefined
+(Font)              using `T1/aett/m/n' instead on input line 167.
 
 
 LaTeX Warning: Reference `fig:results' on page \thepage  undefined on input lin
-e 181.
+e 171.
 
 
-Overfull \hbox (47.58823pt too wide) in paragraph at lines 181--182
-\T1/aer/m/n/9 for the prover to es-tab-lish au-to-mat-i-cally, how-ever \T1/aet
-t/m/n/9 Set_First_And_Last\T1/aer/m/n/9 's
- []
+LaTeX Warning: Citation `smith:2013' on page \thepage  undefined on input line 
+171.
+
+<figs/implementation.pdf, id=22, 1101.11375pt x 367.3725pt>
+File: figs/implementation.pdf Graphic file (type pdf)
+
+<use figs/implementation.pdf>
+Package pdftex.def Info: figs/implementation.pdf used on input line 220.
+(pdftex.def)             Requested size: 495.49661pt x 165.31609pt.
 
 <figs/ast_traversal.pdf, id=23, 1074.0125pt x 279.0425pt>
 File: figs/ast_traversal.pdf Graphic file (type pdf)
 
 <use figs/ast_traversal.pdf>
-Package pdftex.def Info: figs/ast_traversal.pdf used on input line 214.
+Package pdftex.def Info: figs/ast_traversal.pdf used on input line 227.
 (pdftex.def)             Requested size: 590.7087pt x 153.47385pt.
 
-Overfull \hbox (86.7087pt too wide) in paragraph at lines 214--215
+Overfull \hbox (86.7087pt too wide) in paragraph at lines 227--228
  [][] 
  []
 
@@ -420,49 +415,52 @@ Overfull \hbox (86.7087pt too wide) in paragraph at lines 214--215
 <figs/stack.pdf, id=76, 408.52625pt x 74.2775pt>
 File: figs/stack.pdf Graphic file (type pdf)
  <use figs/stack.pdf>
-Package pdftex.def Info: figs/stack.pdf used on input line 312.
+Package pdftex.def Info: figs/stack.pdf used on input line 325.
 (pdftex.def)             Requested size: 224.69012pt x 40.85274pt.
 
 <figs/sfree.pdf, id=77, 409.53pt x 149.55875pt>
 File: figs/sfree.pdf Graphic file (type pdf)
  <use figs/sfree.pdf>
-Package pdftex.def Info: figs/sfree.pdf used on input line 323.
+Package pdftex.def Info: figs/sfree.pdf used on input line 336.
 (pdftex.def)             Requested size: 225.24219pt x 82.25755pt.
 
 <figs/fragmentation.pdf, id=78, 412.54124pt x 112.42pt>
 File: figs/fragmentation.pdf Graphic file (type pdf)
 
 <use figs/fragmentation.pdf>
-Package pdftex.def Info: figs/fragmentation.pdf used on input line 334.
+Package pdftex.def Info: figs/fragmentation.pdf used on input line 347.
 (pdftex.def)             Requested size: 226.89838pt x 61.83118pt.
  <figs/split.pdf, id=79, 413.545pt x 155.58125pt>
 File: figs/split.pdf Graphic file (type pdf)
 
 <use figs/split.pdf>
-Package pdftex.def Info: figs/split.pdf used on input line 341.
+Package pdftex.def Info: figs/split.pdf used on input line 354.
 (pdftex.def)             Requested size: 227.45044pt x 85.56993pt.
  <figs/fuse.pdf, id=80, 409.53pt x 157.58875pt>
 File: figs/fuse.pdf Graphic file (type pdf)
 
 <use figs/fuse.pdf>
-Package pdftex.def Info: figs/fuse.pdf used on input line 348.
+Package pdftex.def Info: figs/fuse.pdf used on input line 361.
 (pdftex.def)             Requested size: 225.24219pt x 86.67407pt.
  (./paper.bbl [5 <./figs/stack.pdf> <./figs/sfree.pdf> <./figs/fragmentation.pd
-f> <./figs/split.pdf> <./figs/fuse.pdf>]) [6
+f> <./figs/split.pdf>]) [6
 
-] (./paper.aux)
+ <./figs/fuse.pdf>] (./paper.aux)
+
+LaTeX Font Warning: Some font shapes were not available, defaults substituted.
+
 
 LaTeX Warning: There were undefined references.
 
 
-LaTeX Warning: There were multiply-defined labels.
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
 
  ) 
 Here is how much of TeX's memory you used:
- 4304 strings out of 493315
- 58103 string characters out of 6137904
- 126221 words of memory out of 5000000
- 7635 multiletter control sequences out of 15000+600000
+ 4307 strings out of 493315
+ 58141 string characters out of 6137904
+ 126182 words of memory out of 5000000
+ 7638 multiletter control sequences out of 15000+600000
  54647 words of font info for 78 fonts, out of 8000000 for 9000
  957 hyphenation exceptions out of 8191
  41i,11n,32p,1216b,335s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -480,7 +478,7 @@ onts/type1/urw/helvetic/uhvr8a.pfb></usr/local/texlive/2013/texmf-dist/fonts/ty
 pe1/urw/times/utmb8a.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/urw/ti
 mes/utmr8a.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/urw/times/utmri8
 a.pfb>
-Output written on paper.pdf (6 pages, 264973 bytes).
+Output written on paper.pdf (6 pages, 265487 bytes).
 PDF statistics:
  230 PDF objects out of 1000 (max. 8388607)
  170 compressed objects within 2 object streams
