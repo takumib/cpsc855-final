@@ -119,6 +119,7 @@ Operation \texttt{Status}, which simply returns the state of the LED at position
 
 %More than givingHaving the freedom to use RESOLVE's specificational capabilities 
 
+
 \subsection{Enhancements}
 
 RESOLVE also allows users to extend the functionality provided by the base concept through \textit{enhancements} -- a form of specification inheritance. The enhancement we provide here is  \texttt{Toggling\_Capability}, which gives users of the LED component the ability to toggle a specific LED on or off. 
@@ -153,6 +154,12 @@ Note that the enhancement specifications themselves look and function largely th
 
 Even realizations of enhancements are neutral since they are only permitted to call operations provided by the base concept -- thus requiring no knowledge of how the called operation is actually implemented.
 
+\begin{figure*}[!htb]
+\centering
+\includegraphics[scale=.45]{figs/implementation.pdf}
+\caption{RESOLVE module types and their corresponding C representation}
+\end{figure*}
+\label{fig:imp}
 
 \subsection{Verification}
 
@@ -226,12 +233,7 @@ The relationship between the RESOLVE module type and c code generated is depicte
 
 Unsurprisingly, concepts are represented in C by a single header .h listing the various methods 
 
-\begin{figure}
-\centering
-\includegraphics[scale=.55]{figs/relationship.pdf}
-\caption{RESOLVE module types and their corresponding C representation}
-\end{figure}
-\label{fig:ast}
+
 
 \subsection{Translator Implementation}
 
@@ -299,11 +301,11 @@ Hence, the only actual work being performed within visit methods is forwarding a
 
 \subsection{Memory Allocation}
 
-Dynamic memory allocation does not lend itself well with an embedded programming paradigm. With hardware constraints, embedded systems have limited capacities on RAM. The telos motes are limited to 128 bytes of RAM. Many programs, however, require dynamic memory allocation to be used, including RESOLVE, in order to make it extensible. In this section we introduce a stack memory allocator.
+Dynamic memory allocation does not lend itself well with an embedded programming paradigm. With hardware constraints, embedded systems have limited capacities on RAM. The telos motes are limited to 128 bytes of RAM. Many programs, however, require dynamic memory allocation to be used, including RESOLVE, in order to make it extensible. Previous RESOVE translations to C required static memory allocation \cite{regula:2010}. In this section a stack based dynamic memory allocator is introduced.
 
-\subsubsection{Allocation using salloc}
+\subsubsection{Allocation using \texttt{salloc}}
 
-The \texttt{salloc} is a first fit memory allocator that is provided memory of fixed size that is determined at compile time. It requires a small section of meta-data called a block which stores information of about the size of memory allocated, neighboring blocks, as well if the block is free or not. A sample representation of the stack as shown in figure \ref{fig:stack}, is a typical example of allocated memory on the stack.
+The \texttt{salloc()} is a first fit memory allocator. Rather than allocating on the heap, \texttt{salloc()} uses the stack. At compilation, the allocator provisions a fixed size of memory. It requires a small section of meta-data called a block which contains information of about the size of memory allocated, neighboring blocks, as well if the block is free or not. A sample representation of the stack shown in figure \ref{fig:stack}, is a typical example of allocated memory on the stack.
 
 \begin{figure}[!htb]
 \centering
@@ -312,32 +314,39 @@ The \texttt{salloc} is a first fit memory allocator that is provided memory of f
 \end{figure}
 \label{fig:stack}
 
-\subsubsection{Deallocation using sfree}
+\subsubsection{Deallocation using \texttt{sfree}}
 
-A memory allocator must provide a mechanism to release  or free memory in order to indicate that it is not being used and can be reallocated for something else. The \texttt{sfree} operation is an analogous implementation to the standard C \texttt{free} function for the stack. 
+A memory allocator must provide a mechanism to release, or free memory in order to indicate that it is not being used and can be reallocated for something else. The \texttt{sfree()} operation is an analogous implementation to the standard C \texttt{free()} function for the stack.
 
 \begin{figure}[!htb]
 \centering
-\includegraphics[scale=.55]{figs/free.pdf}
+\includegraphics[scale=.55]{figs/sfree.pdf}
 \caption{sfree to free memory}
 \end{figure}
 \label{fig:free}
  
 \subsubsection{Optimizations}
 
-A common problem that can occur in memory allocation is fragmentation.  As show in figure ??, fragmentation can lead to inefficient and increased memory usage. This problem is magnified on embedded systems with limited memory capabilities. Simple optimizations can be made however to reduce fragmentation. Splitting is one optimization that \texttt{salloc} uses to maximize memory usage. Shown in figure \ref{fig:split}, previously allocated blocks that have been freed, can be split to the size that is required by a call to \texttt{salloc}. Another means of optimizing memory usage is fusing together freed blocks. When a call to \texttt{sfree()} is made, neighboring blocks are coalesced together, as shown in figure \ref{fig:fuse}.
+A common problem that can occur in memory allocation is fragmentation.  As shown in figure \ref{fig:fragmentation}, fragmentation can lead to inefficient and increased memory usage. This problem is magnified on embedded systems with limited memory capabilities. Simple optimizations can be made however to reduce fragmentation. Splitting is one optimization that \texttt{salloc()} to maximize memory usage. Shown in figure \ref{fig:split}, blocks can be split to the size that is required. Another means of optimizing memory usage is joining together freed blocks. When a call to \texttt{sfree()} is made, neighboring blocks are coalesced together, as shown in figure \ref{fig:fuse}.
+
+\begin{figure}[!htb]
+\centering
+\includegraphics[scale=.55]{figs/fragmentation.pdf}
+\caption{fragmentation}
+\end{figure}
+\label{fig:fragmentation}
 
 \begin{figure}[!htb]
 \centering
 \includegraphics[scale=.55]{figs/split.pdf}
-\caption{block-splitting}
+\caption{block splitting}
 \end{figure}
 \label{fig:split}
 
 \begin{figure}[!htb]
 \centering
 \includegraphics[scale=.55]{figs/fuse.pdf}
-\caption{fusing blocks}
+\caption{block fusing}
 \end{figure}
 \label{fig:fuse}
 %A stack-based approached to dynamic memory allocation requires a fixed size of memory to be set prior to compilation. 
