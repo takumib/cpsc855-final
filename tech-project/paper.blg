@@ -3,9 +3,10 @@ Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
 The top-level auxiliary file: paper.aux
 The style file: unsrt.bst
 Database file #1: sigproc.bib
+Warning--I didn't find a database entry for "smith:2013"
 You've used 5 entries,
             1791 wiz_defined-function locations,
-            476 strings with 4295 characters,
+            477 strings with 4305 characters,
 and the built_in function-call counts, 1124 in all, are:
 = -- 98
 > -- 50
@@ -44,3 +45,4 @@ warning$ -- 0
 while$ -- 9
 width$ -- 6
 write$ -- 57
+(There was 1 warning)
