@@ -166,9 +166,9 @@ As the results summarized in Figure \ref{fig:results} indicate, using RESOLVE's 
 \subsection{Facilities}
 \label{sec:facilities}
 
-With our formally specified LED strip component in place -- and a verified enhancement on this component -- we now present a sample embedded application that iteratively toggles all lights in a single strip.
+With our formally specified LED strip component in place -- and a verified enhancement on this component -- we now present a demo embedded application that iteratively toggles all lights in a single strip.
 
-Shown below is a RESOLVE facility module that implements the client logic of our embedded application.
+Shown below is a RESOLVE facility module that implements the client logic of our small embedded application.
 \begin{verbatim}
 Facility LED_Telos_Demo;
     uses Std_Clock_Fac;
@@ -207,21 +207,29 @@ Facility LED_Telos_Demo;
     
 end LED_Telos_Demo;
 \end{verbatim}
+%smaller file sizes
+%reusable code
+%only have to translate a file once
+% be able to say that the code we have is the code that was verified.
+% our approach takes less ROM. Its not less efficient, it is differently efficient.
+Prior to using the LED component developed in the previous sections, we first must associate our \texttt{LED\_Template} specification with an appropriate realization. This is accomplished via the facility declaration located directly beneath the uses clause, which pairs \texttt{LED\_Template}, with a ``\texttt{Std\_Led\_Realiz}" realization. The ability to toggle lights is added to this facility in a similar fashion.
 
-Prior to using the LED component developed in the previous sections, we must first pair our \texttt{LED\_Template} specification with an appropriate realization. This is accomplished via the facility declaration located directly beneath the uses clause which pairs our LED specification, \texttt{LED\_Template}, with a ``\texttt{Std\_Led\_Realiz}" realization. In order to give LED strip instances the ability to toggle specific LEDs, we also similarly pair the specification, \texttt{Toggling\_Capability} with our \texttt{Toggling\_Realiz} realization.
+The bulk of the logic driving the application rests in the non terminating busy loop inside operation \texttt{Main}, where we use the \texttt{Toggle} operation -- provided by our formally verified \texttt{Toggling\_Capability} enhancement -- to successively turn each light within the strip on then off.
 
-The bulk of logic driving the actual application rests in the non terminating busy loop inside operation \texttt{Main}, where we use the operation provided by \texttt{Toggling\_Capability} to turn each light on the strip on then off in succession.
-
-\subsubsection{``External'' Realization Support}
+\subsection{``External'' Realization Support}
 \label{ssec:external}
 
 Readers might note that we never presented a realization of \texttt{LED\_Template}. Indeed, the RESOLVE programmer would ideally, after writing the concept, provide a verifiable native RESOLVE implementation. However, as our target platform is embedded, and our concept aims to provide control for LEDs -- a decidedly low level feature on embedded hardware -- our realization is forced to operate at similarly low levels by manually interfacing with hardware pins provided by msp430 chipset. 
 
-RESOLVE, however, in its current state is far too high level of a language to perform these tasks directly -- that is, it currently lacks the driver support to do so. In an effort to address this difficulty, we introduce the notion of \textit{external realizations}, which allows the user to write their own realization of a concept in a language of their choosing. In the case of \texttt{LED\_Template}, we chose to provide a hand written \texttt{Std\_Leds\_Realiz} C realization that matches as closely as possible the conventions and model of translation later detailed in Section \#. An example above shows how users communicate to the compiler that a realization is external. 
+RESOLVE, however, in its current state is far too high level of a language to perform these tasks directly -- as it lacks the appropriate driver support to do so. In an effort to address this, we introduce the notion of \textit{external realizations}, which allow users to write their own realization of a concept in a language of their choosing. In the case of \texttt{LED\_Template}, we chose to provide a hand written \texttt{Std\_Leds\_Realiz} C realization, that matches as closely as possible the conventions and model of translation later detailed in Section \#. 
+
+The \texttt{LED\_Telos\_Demo} facility above demonstrates this through the \texttt{externally realized by} phrase. This phrase signals to the RESOLVE compiler that the user is providing a non-native realization, with the expectation that this external realization conforms to the specifications dictated in the concept. 
 
 % Applies to base types in resolve as well
 
-% Similar to NesC, the towers of abstraction idea...
+% Similar to NesC, the towers of abstraction idea... eventually, similar to nesc, we get enough abstraction  through machinery such as enhancements, etc to with pieces built on top of these externally realized components.
+
+% gives flexibility to those wishing to write other drivers and new 
 
 We feel this addition to the language is appropriate and useful for the following reasons:
 
@@ -257,6 +265,8 @@ In this section we discuss each of these phases, concluding with a demo illustra
 
 \subsection{C Translation Model}
 One of the primary challenges in translating from RESOLVE to C is finding a suitable C analog for each RESOLVE module and the constructs allowable in each. Indeed, since we are dealing with an environment where functional correctness is a primary concern, it is important that the code generated by our tool represents as closely as possible the original RESOLVE source. In an effort to make such considerations, at the highest level, the C code generated makes special considerations for facilities, concepts, and realizations.
+
+Resolve is not just concerned with functional correctness, but also considers as a part of overall program correctness performance and space considerations -- and has mechanisms in the language to formally specify these as well. By having a dynamic memory allocation component, we allow our translated code to not have to make special considerations for a hidden steps in compilation that does static allocation. Instead
 
 The relationship between the RESOLVE module type and c code generated is depicted at a high level in Figure \#.
 
