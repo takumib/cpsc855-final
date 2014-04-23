@@ -32,9 +32,9 @@ struct Integer_Template {
     r_type_ptr (*Quotient) (r_type_ptr, r_type_ptr, Integer_Template*);
     r_type_ptr (*Div) (r_type_ptr, r_type_ptr, Integer_Template*);
     r_type_ptr (*Are_Equal) (r_type_ptr, r_type_ptr, Integer_Template*);
-    r_type_ptr (*Are_Not_Equal) (r_type_ptr, r_type_ptr, Integer_Template*);
-    r_type_ptr (*Replica) (r_type_ptr, Integer_Template*);*/
-
+    r_type_ptr (*Are_Not_Equal) (r_type_ptr, r_type_ptr, Integer_Template*);*/
+    r_type_ptr (*Replica) (r_type_ptr, Integer_Template*);
+	void (*assign) (r_type_ptr, r_type_ptr, Integer_Template*);
     void (*Read) (r_type_ptr, Integer_Template*);
     void (*Write) (r_type_ptr, Integer_Template*);
     void (*Write_Line) (r_type_ptr, Integer_Template*);

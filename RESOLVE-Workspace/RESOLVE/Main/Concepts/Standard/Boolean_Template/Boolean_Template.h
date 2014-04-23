@@ -19,10 +19,11 @@ struct Boolean_Template {
     r_type_ptr (*Are_Equal) (r_type_ptr, r_type_ptr, Boolean_Template*);
     r_type_ptr (*Are_Not_Equal) (r_type_ptr, r_type_ptr, Boolean_Template*);
     r_type_ptr (*Replica) (r_type_ptr, Boolean_Template*);
-    void (*Read) (r_type_ptr, Boolean_Template*);
+	void (*assign) (r_type_ptr, r_type_ptr, Boolean_Template*);
+	void (*Read) (r_type_ptr, Boolean_Template*);
     void (*Write) (r_type_ptr, Boolean_Template*);
     void (*Write_Line) (r_type_ptr, Boolean_Template*);
     r_type_ptr (*createFromBoolean) (int, type_info*);
-
+	r_type_ptr (*createBoolean) (type_info*);
 };
 #endif

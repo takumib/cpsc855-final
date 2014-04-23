@@ -1,14 +1,25 @@
 Concept Leds_Template(evaluates Strip_Length : Integer);
 	uses Boolean_Theory, String_Theory;
+	requires Strip_Length > 0 and Strip_Length <= 4;
 
-    Type Family Led is modeled by Str(B);
-        exemplar L;
-        constraint |L| <= Strip_Length;
-        initialization ensures true;
+	Type Family Led is modeled by Str(B);
+		exemplar L;
+		constraint |L| = Strip_Length;
+		initialization ensures true;
 	end;
 
-	Operation Toggle(updates L : Led; evaluates I : Integer);
-		requires I >= 0 and I <= |L|;
-		ensures Element_At(I, L) = not #Element_At(I, L);
+	Operation Set(updates L : Led; evaluates b : Boolean; evaluates i : Integer);
+		requires 0 <= i < |L|;
+		ensures |L| = |#L| and Element_At(i, L) = b;
+
+		--L = lambda (j : Z).(
+		--		{{b	if j = i;(Element_At(j, L) = Element_At(j, #L)) otherwise;}});
+
+	Operation Status(preserves L : Led; evaluates i : Integer) : Boolean;
+		requires 0 <= i < |L|;
+		ensures Status = Element_At(i, L);
+
+	Operation Length(restores L : Led) : Integer;
+		ensures Length = |L|;
 
 end Leds_Template;

@@ -4,7 +4,7 @@
 
 #include "naive_malloc.h"
 
-#define MAX_MEM 1024
+#define MAX_MEM 4096
 #define align4(x) (((((x)-1)>>2)<<2)+4)
 
 static void *stack[MAX_MEM];
@@ -47,7 +47,7 @@ void split_block(block b, size_t size)
 block find_block(block *last, size_t size) 
 {
 	block b = base;
-	while(b && !(b->free && b->size >= size)) {
+	while(b && !(b->free && b->size >= (size))) {
 		*last = b;
 		b = b->next;
 	}
@@ -99,17 +99,39 @@ void *scalloc(int n, size_t size) {
 	}
 	return (void*)new;
 }
+void examine_blocks() {
+	block b = base;
+	size_t free = 0;
+	size_t used = 0;
+	size_t total = 0;
+	while(b) {
+		if(b->free == 0) {	
+			used += b->size + sizeof(struct block_t);
+		} else {
+			free += b->size + sizeof(struct block_t);
+		}
+		b = b->next;
+	}	
+	total = free + used;
+//#ifdef DEBUG
+	//printf("Memory Usage: \n");
+	//printf("Used Blocks: %lu\n", used);
+	//printf("Free Blocks: %lu\n", free);
+	//printf("Total usage: %lu\n", total);
+//#endif
+}
 
 void *salloc(size_t size)
 {
 	block b, last;
 	size_t s;
 	s = align4(size);
+
 	if(base) {
 		last = base;
 		b = find_block(&last, s);
 		if(b) {
-			if((b->size - s) >= (BLOCK_SIZE + 4))
+			if((b->size - s) >= (BLOCK_SIZE))
 				split_block(b, s);
 			b->free = 0;
 		} else {
@@ -120,8 +142,8 @@ void *salloc(size_t size)
 	}
 	else {
 #ifdef DEBUG
-			printf("Creating initial pointer\n");
-			printf("Printing stack address 0: %p\n", &stack[0]);
+			//printf("Creating initial pointer\n");
+			//printf("Printing stack address 0: %p\n", &stack[0]);
 #endif
 		b = extend_stack(NULL, s);
 		if(!b)
@@ -129,6 +151,10 @@ void *salloc(size_t size)
 		base = b;
 	}
 
+	//printf("Start of block %p\n", b);
+	//printf("Size of data %d\n", b->size);
+	//printf("Sizeof block %d\n", sizeof(struct block_t));
+	//examine_blocks();
 	return b->data;
 }
 
@@ -138,7 +164,7 @@ block get_block(void *p)
 	tmp = p;
 	p = tmp -= BLOCK_SIZE;
 #ifdef DEBUG
-	printf("Returning get block address %p\n", p);
+	//printf("Returning get block address %p\n", p);
 #endif
 	return p;
 }
@@ -157,7 +183,7 @@ block fusion(block b)
 {
 	if(b->next && b->next->free) {
 #ifdef DEBUG
-		printf("Fusing blocks\n");
+		//printf("Fusing blocks\n");
 #endif
 		b->size += BLOCK_SIZE + b->next->size;
 		b->next = b->next->next;
@@ -173,7 +199,7 @@ void sfree(void *p)
 	block b;
 	if(valid_addr(p)) {
 #ifdef DEBUG
-		printf("Found valid address\n");
+		//printf("Found valid address\n");
 #endif
 		b = get_block(p);
 		b->free = 1;
@@ -190,4 +216,5 @@ void sfree(void *p)
 			stack_brk(b);
 		}
 	}
+
 }

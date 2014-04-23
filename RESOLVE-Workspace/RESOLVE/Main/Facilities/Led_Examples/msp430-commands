@@ -1,0 +1,2 @@
+msp430-objcopy -O ihex main main.ihex
+tos-bsl --telosb -c /dev/ttyUSB0 -r -e -I -p main.ihex

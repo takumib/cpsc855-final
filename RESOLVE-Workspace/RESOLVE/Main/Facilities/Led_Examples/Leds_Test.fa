@@ -1,0 +1,20 @@
+Facility Leds_Test;
+
+	Facility Led_Facility is Leds_Template(4)
+			externally realized by Std_Leds_Realiz;
+
+
+	Operation Main();
+	Procedure
+		Var B1 : Boolean;
+		B1 := True();
+
+		While(B1)
+			changing B1;
+   			maintaining true;
+   		do
+
+   		end;
+	end Main;
+
+end Leds_Test;
