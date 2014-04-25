@@ -1,0 +1,9 @@
+Facility Test;
+--	uses Alt_Rev_Stack;
+
+	Operation Main();
+	Procedure
+		Main();
+
+	end Main;
+end Test;
