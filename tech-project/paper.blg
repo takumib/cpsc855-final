@@ -3,44 +3,48 @@ Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
 The top-level auxiliary file: paper.aux
 The style file: unsrt.bst
 Database file #1: sigproc.bib
-You've used 5 entries,
+Warning--entry type for "msp:2011" isn't style-file defined
+--line 12 of file sigproc.bib
+Warning--I didn't find a database entry for "smith:2013"
+You've used 6 entries,
             1791 wiz_defined-function locations,
-            476 strings with 4295 characters,
-and the built_in function-call counts, 1124 in all, are:
-= -- 98
-> -- 50
+            479 strings with 4361 characters,
+and the built_in function-call counts, 1213 in all, are:
+= -- 103
+> -- 51
 < -- 1
-+ -- 19
++ -- 20
 - -- 14
 * -- 68
-:= -- 187
-add.period$ -- 16
-call.type$ -- 5
-change.case$ -- 4
+:= -- 193
+add.period$ -- 17
+call.type$ -- 6
+change.case$ -- 5
 chr.to.int$ -- 0
-cite$ -- 5
-duplicate$ -- 56
-empty$ -- 110
+cite$ -- 6
+duplicate$ -- 61
+empty$ -- 128
 format.name$ -- 14
-if$ -- 253
+if$ -- 277
 int.to.chr$ -- 0
-int.to.str$ -- 5
+int.to.str$ -- 6
 missing$ -- 3
-newline$ -- 28
+newline$ -- 31
 num.names$ -- 5
-pop$ -- 18
+pop$ -- 24
 preamble$ -- 1
 purify$ -- 0
 quote$ -- 0
-skip$ -- 24
+skip$ -- 32
 stack$ -- 0
 substring$ -- 53
-swap$ -- 14
+swap$ -- 15
 text.length$ -- 1
 text.prefix$ -- 0
 top$ -- 0
 type$ -- 0
 warning$ -- 0
 while$ -- 9
-width$ -- 6
-write$ -- 57
+width$ -- 7
+write$ -- 62
+(There were 2 warnings)
