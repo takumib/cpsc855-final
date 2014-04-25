@@ -1,0 +1,15 @@
+#LaTex Files
+*.synctex.gz
+*.aux
+*.log
+
+# Temporary Files
+*~
+
+.DS_Store
+.DS_Store?
+.Spotlight-V100
+.Trashes
+Icon?
+ehthumbs.db
+Thumbs.db
