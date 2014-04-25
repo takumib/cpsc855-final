@@ -1,8 +1,0 @@
-\lstdefinelanguage{resolve} {
-  morekeywords = {
-    Operation, preserves, updates, requires, ensures, and
-  },
-  sensitive=true,
-  morecomment=[l]{//},
-  morecomment=[s]{/*}{*/}
-}
