@@ -151,7 +151,7 @@ end LED_Telos_Demo;
 %only have to translate a file once
 % be able to say that the code we have is the code that was verified.
 % our approach takes less ROM. Its not less efficient, it is differently efficient.
-Prior to using the LED component developed in the previous sections, we first must bind our \texttt{LED\_Template} specification with an appropriate realization. This is accomplished via the facility declaration located directly beneath the \texttt{uses} clause, which pairs the specification (\texttt{LED\_Template}) with a realization (\texttt{Std\_Led\_Realiz}). Note that the enhanced ability of toggling lights is added \textit{on top} of this facility declaration in a similar fashion. The remaining bulk of logic driving the application rests in the non terminating busy loop inside operation \texttt{Main}, where we use our enhancement-provided \texttt{Toggle} operation to successively turn each light within the strip on, then off.
+Prior to using the LED component developed in the previous sections, we first must bind our \texttt{LED\_Template} specification with an appropriate realization. This is accomplished via the facility declaration located directly beneath the \texttt{uses} clause, which pairs the specification (\texttt{LED\_Template}) with a realization (\texttt{Std\_Led\_Realiz}). Note that the ability to toggle is added \textit{on top} of this facility declaration in a similar fashion. The remaining bulk of logic driving the application rests in the non terminating busy loop inside operation \texttt{Main}, where we use our enhancement-provided \texttt{Toggle} operation to successively turn each light within the strip on, then off.
 
 \subsection{``External'' Realization Support}
 \label{ssec:external}
@@ -168,7 +168,7 @@ Readers might note that we never presented a realization of \texttt{LED\_Templat
 
 RESOLVE, however, in its current state is too high level of a language to perform these tasks directly -- meaning it lacks the appropriate driver and language support to do so. In an effort to address this, we introduce the notion of \textit{external realizations}, which allow users to write their own realization of a concept in a language of their choosing.
 
-The \texttt{LED\_Telos\_Demo} facility above demonstrates these developments through its use of the ``\texttt{externally realized}" phrase. This signals to the RESOLVE compiler that the user is providing a non-native realization of the \texttt{LED\_Template}, with the expectation that it conforms to the specifications dictated in the concept. 
+The \texttt{LED\_Telos\_Demo} facility above demonstrates these developments through its use of the ``\texttt{externally realized}" phrase. This signals to the RESOLVE compiler that the user is providing a non-native realization of \texttt{LED\_Template}, with the expectation that it conforms to the specifications dictated in the concept. 
 
 % Applies to base types in resolve as well
 
@@ -182,7 +182,7 @@ We feel this new keyword is beneficial for the following reasons:
 \item Provides flexibility for those users looking to wrap their low-level programs/drivers with formal RESOLVE interface specifications.
 \end{itemize}
 
-In the terms of embedded systems, these developments are especially as it allows us to write custom low level of the sort required for most embedded applications (e.g. LED strip drivers) while still providing formally specified interfaces that might later form the foundation . It is our hope and intention that new (native) resolve components will be layered on top of these low level, externally realized (yet specified) drivers -- eventually reaching a level of abstract where we can concern ourselves exclusively with verified, native RESOLVE components.
+In the context of embedded systems, these developments are especially useful as we can now write custom, low level  drivers of the sort required for most embedded applications (e.g. LED strip drivers) while still providing extensible, formally specified interfaces. It is our hope and intention that new (native) RESOLVE components will be layered on top of these low level, externally realized (yet specified) drivers -- eventually reaching a level of abstraction where we can concern ourselves exclusively with verified, native RESOLVE components.
 
 %In a very real sense, gives the language the capability of specifying its foundational components flexibly, and transparently which can later have all native RESOLVE components added on top. 
 

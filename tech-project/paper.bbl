@@ -27,4 +27,10 @@ Gregory Kulczycki, Murali Sitaraman, Kimberly Roche, and Nighat Yasmin.
 \newblock In {\em Wiley Encyclopedia of Computer Science and Engineering}. John
   Wiley {\&} Sons, Inc., 2008.
 
+\bibitem{smith:2013}
+Hampton Smith.
+\newblock {\em Engineering Specifications and Mathematics for Verified
+  Software}.
+\newblock PhD thesis, Clemson University, 2013.
+
 \end{thebibliography}
