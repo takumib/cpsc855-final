@@ -2,6 +2,9 @@
 *.synctex.gz
 *.aux
 *.log
+*.bbl
+*.blg
+paper.pdf
 
 # Temporary Files
 *~
