@@ -1,2 +1,0 @@
-Facility Std_Char_Str_Fac is Char_Str_Template
-	externally realized by Std_Char_Str_Realiz;

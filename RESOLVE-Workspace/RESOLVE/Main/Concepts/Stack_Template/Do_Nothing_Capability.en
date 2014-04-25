@@ -1,6 +1,0 @@
-Enhancement Do_Nothing_Capability for Stack_Template;
-
-	Operation Do_Nothing(restores S: Stack);
-		requires |S| > 0;
-
-end Do_Nothing_Capability;

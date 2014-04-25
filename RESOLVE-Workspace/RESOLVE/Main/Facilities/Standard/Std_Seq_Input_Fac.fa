@@ -1,2 +1,0 @@
-Facility Std_Seq_Input_Fac is Seq_Input_Template
-	externally realized by Std_Seq_Input_Realiz;

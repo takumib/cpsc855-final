@@ -1,2 +1,0 @@
-Facility Std_Character_Fac is Character_Template
-	externally realized by Std_Character_Realiz;

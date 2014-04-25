@@ -1,8 +1,0 @@
-Enhancement Inject_Front_Capability for Queue_Template;
-
-    Operation Inject_at_Front(alters E: Entry; updates Q: Queue);
-        requires |Q| < Max_Length;
-        ensures Q = <#E> o #Q;
-
-end Inject_Front_Capability;
-

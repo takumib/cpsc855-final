@@ -1,4 +1,0 @@
-Enhancement Inverting_Capability for Queue_Template;
-    Operation Invert (updates Q: Queue);
-        ensures Q = Reverse(#Q);
-end Inverting_Capability;
