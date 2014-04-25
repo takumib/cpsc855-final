@@ -140,27 +140,24 @@ Block splitting, as shown in Figure~\ref{fig:split}, occurs during allocation. I
 Fusing blocks is another technique used when \texttt{sfree()} is called. When memory is deallocated, neighboring free blocks are coalesced to form a single large block, as shown in Figure~\ref{fig:fuse}. 
 
 \begin{figure}[!htb]
-%\centering
+\centering
 \includegraphics[scale=.55]{figs/fragmentation.pdf}
-\caption{fragmentation}
+\caption{Performing naive allocation and deallocations, allocatable blocks are restricted to those that match the exact size of memory requested from the allocator}
 \label{fig:fragmentation}
-Performing many naive allocation and deallocations, allocatable blocks are restricted to those that match the exact size of memory requested from the allocator.
 \end{figure}
 
 \begin{figure}[!htb]
-%\centering
+\centering
 \includegraphics[scale=.55]{figs/split.pdf}
-\caption{block splitting}
-Splitting of a free block creates two new blocks: a block that is the size that the allocator requested, and the other contains the remainder of a new free block with the remainder of memory.
+\caption{Splitting creates a block that is the size that the allocator requested, and a new free block with the remainder of memory.}
 \label{fig:split}
 \end{figure}
 
 
 \begin{figure}[!htb]
-%\centering
+\centering
 \includegraphics[scale=.55]{figs/fuse.pdf}
-\caption{block fusing}
-An example of fusing blocks together. This creates single larger block, decreasing the number of smaller blocks unable to split.
+\caption{Block fusing. This creates single larger block, decreasing the number of smaller blocks unable to split.}
 \label{fig:fuse}
 \end{figure}
 
