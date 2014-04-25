@@ -68,43 +68,6 @@ That is, the only actual work being performed within the C translator is forward
 
 We feel this approach lends itself well to the challenge discussed in this paper, as this separation allows us to easily iterate changes to our generated C code without needing to concern ourselves with the Java written inside the compiler itself. This allows us to easily and iteratively tweak generated code -- making arbitrarily complicated changes and optimizations, some of which are detailed later in Section \#.
 
-% general flow Each of these calls are received in the translator in the order in which they are visited within the tree. It is up to the client (in this case, the author of the C-translator) to decide which of these methods they wish to override and perform custom actions within. 
-
-%\subsubsection{Translation output}
-%Output of translated code is done using \textit{Stringtemplate} -- a third-party tool written in Java that allows users to define parameterizable templates. Like the name suggests, a template is simply ``a document with holes" that the user choses when and how to fill. 
-
-%An example C function definition template is shown below.
-
-%\begin{verbatim}
-%function_def(modifier, type, name, params, 
-%                               vars, stmts) ::= <<
-%<modifier> <type> <name> (<params; sep = ", ">) {
-%    <vars; sep = "\n">
-%    <stmts; sep = "\n">
-%}>>
-%\end{verbatim}
-
-%User supplied attributes, enclosed in \texttt{<..>}, indicates the position of that attribute relative to others. It is entirely up to the user to define which attributes to fill in, and how complex they want them to be. For example, the user might choose to fill the \texttt{params} attribute with a simple string, or a separately defined \texttt{parameter} template, which in turn might use another separately defined \texttt{type} template.
-
-%\begin{verbatim}
-%parameter(type, name) ::= "<type> <name>"
-%\end{verbatim}
-
-%In the context of language translation, these templates, when stored on a stack and manipulated over the course of the aforementioned AST traversal, help simplify the task of producing complicated, structured blocks of C output. For instance, upon visiting \texttt{preOperationDec}, a \texttt{function\_def} template can be instantiated by the client and pushed onto a global translation stack with its \texttt{name}, return \texttt{type}, and \texttt{modifier} attributes filled in. As \texttt{preOperationDec}'s children are visited, the \texttt{function\_def} template currently at the top of the stack receives similarly constructed parameter, variable, and statement templates from the nodes being walked. Upon reaching \texttt{postOperationDec}, we can be assured that the function has been completely filled in with the appropriate templates -- assuming the user has implemented the children's visit methods.
-
-%Hence, the only actual work being performed within visit methods is forwarding appropriate information from tree-node it represents, to an externally defined template. This allows us to exploit (in shameless design pattern parlance) a strict model view controller (MVC) separation in the translator's codebase between the mechanism that does the AST visiting (controller), the tree nodes from which we're adding information to templates (model), and the external file containing all available C language templates (view).
-
-<<<<<<< HEAD
-\subsection{Memory Allocation}
-
-Any model seeking to convert RESOLVE to a lower level representation such as C demands a strategy for handling any memory utilized by the generated code. While dynamic allocation is typically the norm, it is not however the first choice for embedded applications. With the Telos mote constrained to 128 bytes of RAM, developers targeting embedded platforms tend to favor static memory allocation over dynamic, due the memory efficiency it affords. 
-
-%Many programs however benefit greatly from dynamic memory allocation not only in terms of clarity and straightforwardness, but in our case: Accurately modeling exactly what the code being executed is doing. 
-%NesC, for example, while giving the illusion of dynamic allocation, behind the scenes actually performs static allocation 
-
-In spite of this, our reasoning for choosing to pursue dynamic allocation over static, rests in the language itself. Being a language that relies heavily on the notion of formally specified objects (components), everything in RESOLVE from the `primitive' types such as booleans and integers, to the more complicated (user defined) ones such as Stacks and Queues, are modeled, specified, and implemented in the same way: Using the standard RESOLVE machinery discussed in Section \ref{sec:specifiying}. 
-
-=======
 %%%%%%%%%%%%%%%%%%%%%%%
 %           Memory Allocation Section              %
 %%%%%%%%%%%%%%%%%%%%%%%
@@ -115,18 +78,13 @@ Any model seeking to convert RESOLVE to a lower level representation such as C d
 %Many programs however benefit greatly from dynamic memory allocation not only in terms of clarity and straightforwardness, but in our case: Accurately modeling exactly what the code being executed is doing. 
 %NesC, for example, while giving the illusion of dynamic allocation, behind the scenes actually performs static allocation 
 
-In spite of this, our reasoning for choosing to pursue dynamic allocation over static, rests in the language itself. Being a language that relies heavily on the notion of formally specified objects (components), everything in RESOLVE from the `primitive' types such as booleans and integers, to the more complicated (user defined) ones such as Stacks and Queues, are modeled, specified, and implemented in the same way: Using the standard RESOLVE machinery discussed in Section \ref{sec:specifiying}. 
+In spite of this, our reasoning for choosing to pursue dynamic allocation over static, rests in the language itself. Being a language that relies heavily on the notion of formally specified objects (components), everything in RESOLVE from the `primitive' types such as booleans and integers, to the more complicated ones such as Stacks and Queues, are modeled, specified, and implemented in the same way: Using the standard RESOLVE machinery discussed in Section \ref{sec:specifiying}. 
 
->>>>>>> bolte
 As such, even the simplest RESOLVE programs still rely heavily on the notion of objects coming and going. Thus, from a verification perspective, creating a tool that allows our translated code to create and destroy such objects in the manner the language itself uses is an important component to capture in formally verified code.
 
 \subsubsection{Allocation using \texttt{salloc}}
 
-<<<<<<< HEAD
-The particular allocation scheme that we chose to use is \texttt{salloc()}: A first fit memory allocator. Rather than allocating memory on the heap, \texttt{salloc()} instead uses the stack. At compilation, the allocator provisions a fixed size of memory. It requires a small section of meta-data called a block which contains information of about the size of memory allocated, neighboring blocks, as well if the block is free or not. A sample representation of the stack shown in figure \ref{fig:stack}, is a typical example of allocated memory on the stack.
-=======
 The particular allocation scheme that we chose to use is \texttt{salloc()}: A first fit memory allocator. Rather than conventional, heap-based allocators, \texttt{salloc()} uses stack memory for allocation. This approach requires that a fixed size of memory is chosen at compilation. In addition, \texttt{salloc()}, requires a section of meta-data, which is denoted as a \texttt{block}, for each record in the memory pool. A \texttt{block} holds referential information of neighboring blocks, the size of the record the block maintains, and if the block is free or is in use. Figure~\ref{fig:stack} is an example of the stack after several calls to \texttt{salloc()}.
->>>>>>> bolte
 
 \begin{figure}[!htb]
 %\centering
