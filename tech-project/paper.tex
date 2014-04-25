@@ -144,7 +144,7 @@ Enhancement realizations are neutral as well since any method called within the 
 
 \subsection{Verification}
 
-We now turn to the task of verifying our small toggling enhancement. The first step in doing so is to generate Verification Conditions (VCs) for \texttt{Toggle\_Realiz}, which, if proven, will establish the correctness of this particular implementation of \texttt{Toggling\_Capability}. One thing to note about the VCs themselves is that they are generated from specific lines of a realization, and exist to ensure that the content of the realization is consistent with its specification: This entails checking for things such as array access boundary violations, etc.  
+We now turn to the task of verifying our small toggling enhancement. The first step in doing so is to generate Verification Conditions (VCs) for \texttt{Toggle\_Realiz}, which, if proven, will establish the correctness of this particular implementation. One thing to note about the VCs themselves is that they are generated from specific lines of a realization, and exist to ensure that the content of the realization is consistent with its specification: This entails checking for things such as array access boundary violations, etc.  
 
 \begin{figure}[!htb]
 \centering
@@ -213,18 +213,24 @@ end LED_Telos_Demo;
 %only have to translate a file once
 % be able to say that the code we have is the code that was verified.
 % our approach takes less ROM. Its not less efficient, it is differently efficient.
-Prior to using the LED component developed in the previous sections, we first must bind our \texttt{LED\_Template} specification with an appropriate realization. This is accomplished via the facility declaration located directly beneath the \texttt{uses} clause, which pairs the specification (\texttt{LED\_Template}) with a realization (\texttt{Std\_Led\_Realiz}). Note that the enhanced ability of toggling lights is added \textit{on top} of this facility declaration in a similar fashion.
-
-The bulk of the logic driving the application rests in the non terminating busy loop inside operation \texttt{Main}, where we use our enhancement-provided \texttt{Toggle} operation to successively turn each light within the strip on, then off.
+Prior to using the LED component developed in the previous sections, we first must bind our \texttt{LED\_Template} specification with an appropriate realization. This is accomplished via the facility declaration located directly beneath the \texttt{uses} clause, which pairs the specification (\texttt{LED\_Template}) with a realization (\texttt{Std\_Led\_Realiz}). Note that the enhanced ability of toggling lights is added \textit{on top} of this facility declaration in a similar fashion. The remaining bulk of logic driving the application rests in the non terminating busy loop inside operation \texttt{Main}, where we use our enhancement-provided \texttt{Toggle} operation to successively turn each light within the strip on, then off.
 
 \subsection{``External'' Realization Support}
 \label{ssec:external}
 
+\begin{figure*}[!htb]
+\centering
+\includegraphics[scale=.55]{figs/component_graph.pdf}
+\caption{A diagram illustrating inter-component relationships for the example in Section \ref{sec:specifying}}
+\end{figure*}
+\label{fig:imp}
+
+
 Readers might note that we never presented a realization of \texttt{LED\_Template}. Indeed, after having written the concept, the RESOLVE programmer would ideally provide it with a verifiable, native RESOLVE implementation. However, as our target platform is embedded, and our concept aims to provide control for LEDs -- a decidedly low level feature on embedded hardware -- our realization is forced to operate at similarly low levels by directly manipulating hardware pins provided by msp430's chipset. 
 
-RESOLVE, however, in its current state is too high level of a language to perform these tasks directly -- meaning it lacks the appropriate driver and language support to do so. In an effort to address this, we introduce the notion of \textit{external realizations}, which allow users to write their own realization of a concept in a language of their choosing. In the case of \texttt{LED\_Template}, we chose to provide a hand written \texttt{Std\_Leds\_Realiz} C realization, that matches as closely as possible the conventions and model of translation later detailed in Section \#. 
+RESOLVE, however, in its current state is too high level of a language to perform these tasks directly -- meaning it lacks the appropriate driver and language support to do so. In an effort to address this, we introduce the notion of \textit{external realizations}, which allow users to write their own realization of a concept in a language of their choosing.
 
-The \texttt{LED\_Telos\_Demo} facility showcased above demonstrates this through its use of the ``\texttt{externally realized}" phrase. This signals to the RESOLVE compiler that the user is providing a non-native realization, with the expectation that it conforms to the specifications dictated in the concept. 
+The \texttt{LED\_Telos\_Demo} facility above demonstrates these developments through its use of the ``\texttt{externally realized}" phrase. This signals to the RESOLVE compiler that the user is providing a non-native realization of the \texttt{LED\_Template}, with the expectation that it conforms to the specifications dictated in the concept. 
 
 % Applies to base types in resolve as well
 
@@ -232,13 +238,13 @@ The \texttt{LED\_Telos\_Demo} facility showcased above demonstrates this through
 
 % gives flexibility to those wishing to write other drivers and new 
 
-We feel this new keyword is useful for the following reasons:
+We feel this new keyword is beneficial for the following reasons:
 \begin{itemize}
 \item The language no longer must ``hide" the fact that some of the lower level components relied upon are not written in straight-line, native RESOLVE code. The ``externally" keyword now transparently indicates this.
 \item Provides flexibility for those users looking to wrap their low-level programs/drivers with formal RESOLVE interface specifications.
 \end{itemize}
 
-In the context of embedded systems especially, we feel these developments allow flexibility and transparency in the way users specify low level components of the sort required in most embedded applications (e.g. LED strip drivers). It is our hope and intention that new (native) resolve components will be layered on top of these low level, externally realized (yet specified) drivers -- eventually building up to a system (not unlike NesC) that deals exclusively in verified, native RESOLVE components.
+In the terms of embedded systems, these developments are especially as it allows us to write custom low level of the sort required for most embedded applications (e.g. LED strip drivers) while still providing formally specified interfaces that might later form the foundation . It is our hope and intention that new (native) resolve components will be layered on top of these low level, externally realized (yet specified) drivers -- eventually reaching a level of abstract where we can concern ourselves exclusively with verified, native RESOLVE components.
 
 %In a very real sense, gives the language the capability of specifying its foundational components flexibly, and transparently which can later have all native RESOLVE components added on top. 
 
@@ -246,12 +252,6 @@ In the context of embedded systems especially, we feel these developments allow 
 
 %mention performance stuff in future work section.
 
-\begin{figure*}[!htb]
-\centering
-\includegraphics[scale=.45]{figs/implementation.pdf}
-\caption{RESOLVE module types and their corresponding C representation}
-\end{figure*}
-\label{fig:imp}
 
 \begin{figure*}
 \centering

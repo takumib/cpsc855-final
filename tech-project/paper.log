@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2013.5.30)  22 APR 2014 17:15
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2013.5.30)  22 APR 2014 18:01
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -383,20 +383,30 @@ LaTeX Font Warning: Font shape `T1/aett/bx/n' undefined
 LaTeX Warning: Citation `smith:2013' on page \thepage  undefined on input line 
 164.
 
+<figs/component_graph.pdf, id=22, 903.375pt x 335.2525pt>
+File: figs/component_graph.pdf Graphic file (type pdf)
 
-Overfull \hbox (6.4519pt too wide) in paragraph at lines 227--228
+<use figs/component_graph.pdf>
+Package pdftex.def Info: figs/component_graph.pdf used on input line 223.
+(pdftex.def)             Requested size: 496.85779pt x 184.38943pt.
+
+
+LaTeX Warning: Reference `sec:specifying' on page \thepage  undefined on input 
+line 224.
+
+
+Overfull \hbox (6.4519pt too wide) in paragraph at lines 233--234
 []\T1/aer/m/n/9 The \T1/aett/m/n/9 LED_Telos_Demo \T1/aer/m/n/9 fa-cil-ity show
 -cased above demon-strates
  []
 
-[3] <figs/implementation.pdf, id=25, 706.64pt x 488.82625pt>
-File: figs/implementation.pdf Graphic file (type pdf)
 
-<use figs/implementation.pdf>
-Package pdftex.def Info: figs/implementation.pdf used on input line 251.
-(pdftex.def)             Requested size: 317.98506pt x 219.96977pt.
+Overfull \hbox (20.56322pt too wide) in paragraph at lines 233--234
+\T1/aer/m/n/9 these de-vel-op-ments through its use of the ``\T1/aett/m/n/9 ext
+ernally realized\T1/aer/m/n/9 "
+ []
 
-<figs/ast_traversal.pdf, id=26, 1074.0125pt x 279.0425pt>
+[3] <figs/ast_traversal.pdf, id=26, 1074.0125pt x 279.0425pt>
 File: figs/ast_traversal.pdf Graphic file (type pdf)
 
 <use figs/ast_traversal.pdf>
@@ -407,35 +417,32 @@ Overfull \hbox (86.7087pt too wide) in paragraph at lines 258--259
  [][] 
  []
 
-[4]
-Underfull \vbox (badness 7796) has occurred while \output is active []
-
- [5 <./figs/implementation.pdf> <./figs/ast_traversal.pdf>]
-<figs/stack.pdf, id=79, 408.52625pt x 74.2775pt>
+[4 <./figs/component_graph.pdf>] [5 <./figs/ast_traversal.pdf>]
+<figs/stack.pdf, id=72, 408.52625pt x 74.2775pt>
 File: figs/stack.pdf Graphic file (type pdf)
  <use figs/stack.pdf>
 Package pdftex.def Info: figs/stack.pdf used on input line 354.
 (pdftex.def)             Requested size: 224.69012pt x 40.85274pt.
 
-<figs/sfree.pdf, id=80, 409.53pt x 149.55875pt>
+<figs/sfree.pdf, id=73, 409.53pt x 149.55875pt>
 File: figs/sfree.pdf Graphic file (type pdf)
  <use figs/sfree.pdf>
 Package pdftex.def Info: figs/sfree.pdf used on input line 365.
 (pdftex.def)             Requested size: 225.24219pt x 82.25755pt.
 
-<figs/fragmentation.pdf, id=81, 412.54124pt x 112.42pt>
+<figs/fragmentation.pdf, id=74, 412.54124pt x 112.42pt>
 File: figs/fragmentation.pdf Graphic file (type pdf)
 
 <use figs/fragmentation.pdf>
 Package pdftex.def Info: figs/fragmentation.pdf used on input line 376.
 (pdftex.def)             Requested size: 226.89838pt x 61.83118pt.
- <figs/split.pdf, id=82, 413.545pt x 155.58125pt>
+ <figs/split.pdf, id=75, 413.545pt x 155.58125pt>
 File: figs/split.pdf Graphic file (type pdf)
 
 <use figs/split.pdf>
 Package pdftex.def Info: figs/split.pdf used on input line 383.
 (pdftex.def)             Requested size: 227.45044pt x 85.56993pt.
- <figs/fuse.pdf, id=83, 409.53pt x 157.58875pt>
+ <figs/fuse.pdf, id=76, 409.53pt x 157.58875pt>
 File: figs/fuse.pdf Graphic file (type pdf)
 
 <use figs/fuse.pdf>
@@ -446,12 +453,15 @@ df> <./figs/split.pdf> <./figs/fuse.pdf>] (./paper.aux)
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
+
+LaTeX Warning: There were undefined references.
+
  ) 
 Here is how much of TeX's memory you used:
- 4304 strings out of 493315
- 58126 string characters out of 6137904
+ 4305 strings out of 493315
+ 58147 string characters out of 6137904
  126202 words of memory out of 5000000
- 7638 multiletter control sequences out of 15000+600000
+ 7639 multiletter control sequences out of 15000+600000
  52494 words of font info for 75 fonts, out of 8000000 for 9000
  957 hyphenation exceptions out of 8191
  41i,11n,32p,1216b,335s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -469,10 +479,10 @@ onts/type1/urw/helvetic/uhvr8a.pfb></usr/local/texlive/2013/texmf-dist/fonts/ty
 pe1/urw/times/utmb8a.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/urw/ti
 mes/utmr8a.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/urw/times/utmri8
 a.pfb>
-Output written on paper.pdf (6 pages, 271954 bytes).
+Output written on paper.pdf (6 pages, 267763 bytes).
 PDF statistics:
- 230 PDF objects out of 1000 (max. 8388607)
- 170 compressed objects within 2 object streams
+ 223 PDF objects out of 1000 (max. 8388607)
+ 165 compressed objects within 2 object streams
  0 named destinations out of 1000 (max. 500000)
  36 words of extra memory for PDF output out of 10000 (max. 10000000)
 
