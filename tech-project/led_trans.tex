@@ -57,17 +57,28 @@ void LED_Telos_Demo_destroy() {
 } ...
 \end{verbatim}
 \end{minipage}
-\caption{C Translation of \texttt{LED\_Telos\_Demo}.}
+\caption{C Translation of \texttt{LED\_Telos\_Demo}. The .h (left) and .c implementation (right).}
 \label{fig:demo}
 \end{figure*}
 
 Given our RESOLVE realization of the \texttt{LED\_Telos\_Demo} described in Section 3, we now discuss our translator's output in greater detail.
 
-Depicted in figure \ref{fig:demo} is the C translation of \texttt{LED\_Telos\_Demo} consisting of a .h (left) and a portion of the .c (right). The \texttt{LED\_Telos\_Demo\_create()} function provides instantiations for all global facilities used in \texttt{LED\_Telos\_Demo}, including those for standard types such as integers, booleans, clock, as well as local facilities such as \texttt{Leds\_Fac}. One additional thing to note within this create method is the temporary \texttt{\_\_arg\_0} integer variable -- representing the formal value \texttt{Strip\_Length} found within the concept. Note that this variable does not appear in the original source, but rather, is created by the translator in an effort to keep track of all literal argument values that require manual deletion.
+Depicted in figure \ref{fig:demo} is the C translation of \texttt{LED\_Telos\_Demo} consisting of a .h (left) and a portion of the .c (right). The \texttt{LED\_Telos\_Demo\_create()} function provides instantiations for all global facilities used in \texttt{LED\_Telos\_Demo}, including those for standard types such as integers, booleans, clock, as well as local facilities such as \texttt{Leds\_Fac}. One additional thing to note within this create method is the temporary \texttt{\_\_arg\_0} integer variable -- representing the formal value \texttt{Strip\_Length} found within the concept. Note that this variable does not appear in the original source, but rather, is created by the translator in an effort to keep track of all literal argument values that require manual deletion (as illustrated after the assignment of \texttt{Toggling\_Capability}).
 
 The \texttt{Leds\_Fac} facility from the original source, represented here as a struct, uses a \texttt{core} field to provide a means of accessing the methods and types in the original concept, while any remaining fields correspond to enhancement pointers that serve a similar end -- in this case, providing access to the operations declared within  \texttt{Toggling\_Capability}.
 
-Clearly facilities and other modules highly reliant on facility instantiations are no doubt going to consume much more memory than the small example detailed here. To help alleviate some of th
+Clearly, facilities and other modules highly reliant on instantiated facilities are no doubt going to consume much more memory than the small example detailed here -- as each would (naively) be represented as a struct. To help alleviate some of this memory usage, we make special considerations in the translated code to only create structs for \textit{enhanced} facilities. That is, \textit{unenhanced} facilities (comprising structs with only a single \texttt{core} field) are not created, but rather, dereferenced manually within the source.
+
+The body of the .c file (omitted from Figure \ref{fig:demo} for clarity and space), operates as expected: A C while loop iterates indefinitely, making successive 500ms delayed calls to toggle each LED. Perhaps the last thing worth mentioning is the invoking main method:
+
+\begin{verbatim}
+int main() {
+    LED_Telos_Demo_create();
+    Main();
+    LED_Telos_Demo_destroy();
+}
+\end{verbatim}
+
 
 %\texttt{new\_Toggling\_Realiz\_for\_Toggling\_Capability\_of\_LED\_Template()}. Similarly, this initialization and allocation step must occur for the Integer, Boolean, and Clock facilities. From this relatively small example of LED toggling from RESOLVE to C,  complex programs will require even more attention to amount of memory used for each concept and facility realization. Curtailing the management of this memory by placing the responsibility on an allocator provides a key motivation for using \texttt{salloc()} and \texttt{sfree()}.
 
@@ -79,38 +90,24 @@ Clearly facilities and other modules highly reliant on facility instantiations a
 
 %A wait utility is then called using the \texttt{Std\_Clock\_Fac} facility. This facility uses the externally realized concept to the msp430 \texttt{\_\_delay\_cycles()} command. Internally the MCU is delayed for a given number of cycles. 
 
-\begin{figure}
-\begin{verbatim}
-int Main() {
-  while(TRUE) {
-    Toggle(L, 0);
-    Wait_500_Milli_Seconds();
-    Toggle(L, 1);
-    Wait_500_Milli_Seconds();
-    Toggle(L, 2);
-    Wait_500_Milli_Seconds();
-  }
-}
+%\begin{figure}
+%\begin{verbatim}
+%int Main() {
+%  while(TRUE) {
+%    Toggle(L, 0);
+%    Wait_500_Milli_Seconds();
+%    Toggle(L, 1);
+%    Wait_500_Milli_Seconds();
+%    Toggle(L, 2);
+%    Wait_500_Milli_Seconds();
+%  }
+%}
 
-int main() {
-  LED_Telos_Demo_create();
-  Main();
-  LED_Telos_Demo_destroy();
-}
-\end{verbatim}
-\label{fig:loop}
-\end{figure}
-%
-%
-%
-%
-%
-%
-%
-%
-%
-%
-%
-%
-%
-%
+%int main() {
+%  LED_Telos_Demo_create();
+%  Main();
+%  LED_Telos_Demo_destroy();
+%}
+%\end{verbatim}
+%\label{fig:loop}
+%\end{figure}
