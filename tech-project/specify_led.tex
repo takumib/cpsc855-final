@@ -5,12 +5,12 @@ In this section, we provide mathematical and programmatic elements of an LED str
 
 \subsection{Concepts}
 \label{ssec:concepts}
-In RESOLVE, programs are composed of several different modules that range from interfaces and realizations, to client (facility) modules. A \textit{concept} module in RESOLVE defines a specification for a mathematical, abstract type. Similar to an interface in Java, a concept provides a number of operation signatures that implementors are expected to realize. Shown below is a \texttt{LED\_Template} concept that provides a light strip abstraction.
+In RESOLVE, programs are composed of several different modules that range from interfaces and realizations, to client (facility) modules. The first we  discuss here, termed a \textit{concept}, defines a specification for a mathematical, abstract type. Similar to an interface in Java, a concept provides a number of operation signatures that implementors are expected to realize. Shown below is an \texttt{LED\_Template} concept that provides an LED light strip abstraction.
 
 \begin{verbatim}
 Concept LED_Template(eval Strip_Length: Integer);
     uses Boolean_Theory, String_Theory;
-    requires 0 < Strip_Length <= 4;
+    requires 0 < Strip_Length 
 	
     Type Family LED is modeled by Str(B);
         exemplar L;
@@ -21,30 +21,27 @@ Concept LED_Template(eval Strip_Length: Integer);
     Oper Set(updates L : LED; eval b : Boolean; 
                              eval i : Integer);
         requires 0 <= i < |L|;
-        ensures |L| = |#L| and 
-                   Element_At(i, L) = b;
+        ensures L = (Prt_Btwn(0, i, #L) o <#b>) o
+            Prt_Btwn(i, |#L|, #L) and |L| = |#L|;
     
     Oper Status(preserves L : LED; 
-                   eval i : Integer) : Boolean;
+                        updates b : Boolean;
+            eval i : Integer);
         requires 0 <= i < |L|;
-        ensures Status = Element_At(i, L);
+        ensures Status = Element_At(i, #L);
         
 end LEDs_Template;
 \end{verbatim}
 
 We model our conceptual LED strip using a mathematical string (finite sequence) of booleans, denoted \texttt{Str(B)}, where each boolean within the string indicates the status of that particular LED: On (true) or off (false). The \texttt{exemplar} clause located immediately below provides a handle to this abstract model, and is used throughout the remainder of the specification.
 
-%The \texttt{Type Family} clause introduces an abstract type for the LED strip which we mathematically model using strings of booleans, denoted \texttt{Str(B)}, while the \texttt{exemplar} declared immediately after provides a handle to this type family. Use of the \texttt{exemplar} can be observed in the \texttt{constraint} clause, where it is used to assert that length of the strip is fixed to be whatever the user has specified via the \texttt{Strip\_Length} parameter. Finally, the \texttt{initialization} \texttt{ensures} clause makes explicit the state of the structure at the time it is initialized. We omit this verification specific clause, as it has little bearing on verification due to the fact that the realization we provide is \textit{externally} realized -- a point discussed in the next section\footnote{This clause, if it were provided, would need to communicate the following: ``For each position $i$ within the strip, the LED (or, value) at position $i$ is initially false."}
-
 It's worth noting that unlike the \texttt{LED\_Template} presented in \cite{regula:2010} which models an LED as the \textit{cartesian product} of booleans $b_0$, $b_1$, \ldots , $b_4$, the strip model we present here instead uses strings for the following reasons:
 \begin{itemize}
 \item Strings are indexible, and thus do not require separate \texttt{Set} and \texttt{Status} operations for each individual LED.
-\item This approach demonstrates the benefits of reusable mathematical theories. The specifications listed here are based (almost) entirely in \texttt{String\_Theory} and are therefore able to make use of RESOLVE's pre-existing math libraries.
+\item This approach demonstrates the benefits of reusable mathematical theories. Indeed, the specifications listed here are based (almost) entirely in \texttt{String\_Theory} and are therefore able to make use of RESOLVE's pre-existing math libraries.
 \end{itemize}
 
-Finally, the concept provides two operations. The first, \texttt{Set}, takes as a parameter an instance of an LED strip \texttt{L}, a boolean \texttt{b}, and an integer \texttt{i}. The operation \texttt{requires} that \texttt{i} falls within the length of the strip, and \texttt{ensures} two things upon completion: The length of the outgoing strip \texttt{L} is the same as the incoming strip, \texttt{\#L}, and that the LED in position \texttt{i} of \texttt{L} is set to boolean \texttt{b}. The \texttt{Status} operation is specified similarly. 
-
-%Each operation carries with it a pre and post condition in the form of \texttt{requires} and \texttt{ensures} clause, which make explicit what must be true coming into the function, and what must be true after. For instance, the requires clause to \texttt{Status} states that \texttt{i} must fall somewhere within the bounds of the string which models our LED strip, while the \texttt{ensures} clause makes use of a \texttt{String\_Theory} definition, \texttt{Element\_At}, to assert that the boolean returned from \texttt{Status} is indeed the value occupying position \texttt{i} of \texttt{L}. It's important to note that the variables appearing in the \texttt{requires} and \texttt{ensures} clauses are strictly mathematical values. Thus, the \texttt{L} parameter of operation \texttt{Status} is referring to the mathematical value of an \texttt{LED}, as opposed to a programmatic one (typically defined in a realization). 
+The concept provides two operations. The first, \texttt{Set}, takes as a parameter an instance of an LED strip \texttt{L}, a boolean \texttt{b}, and an integer \texttt{i}. The operation \texttt{requires} that \texttt{i} falls within the length of the strip, and \texttt{ensures} two things upon completion: The length of the outgoing strip \texttt{L} is the same as the incoming strip, \texttt{\#L}, and that the LED in position \texttt{i} of \texttt{L} is set to boolean \texttt{b}\footnote{Note that the \texttt{ensures} clause in this case is strong enough to assert that \textit{only} the boolean at location \texttt{i} has changed}. The \texttt{Status} operation is specified similarly. 
 
 \subsection{Enhancements}
 
@@ -53,22 +50,22 @@ RESOLVE also allows users to extend the functionality provided by the base conce
 Shown below is a specification for \texttt{Toggling\_Capability} and one particular realization of it.
 
 \begin{verbatim}
-Enhancement Toggling_Capability for LEDs_Template;
+Enhancement Toggling_Capability for LED_Template;
 
     Oper Toggle(upd L : LED; eval i : Integer);
-        requires 0 <= i < |L|;
-        ensures Element_At(i, L) = 
-                        not(Element_At(i, #L));
+        requires i >= 0 and i < |L|
+        ensures L = (Prt_Btwn(0, i, #L) o  
+                  <not(Element_At(i, #L))>) o
+                  Prt_Btwn(i, |#L|, #L);
 end Toggling_Capability;
 
 Realization Toggling_Realiz for
-            Toggling_Capability of LEDs_Template;
+            Toggling_Capability of LED_Template;
 
     Proc Toggle(upd L : LED; eval i : Integer);
-        Var Content : Boolean;
-        
-        Content := Status(L, Replica(i));
-        Set(L, Not(Content), Replica(i));
+        Var Flipped_Contents : Boolean;
+        Status(L, Flipped_Contents, Replica(i));
+        Set(L, Not(Flipped_Contents), Replica(i));
     end Toggle;
     
 end Toggling_Realiz;
@@ -78,11 +75,11 @@ The enhancement specifies a single operation, \texttt{Toggle}, which states that
 
 Note that the enhancement specifications themselves look and function largely the same as a normal concept: Each specifies a purely conceptual module, and hence is implementation neutral. 
 
-Enhancement realizations are neutral as well since any method called within the context of an enhancement realization refers to the operation specified in the concept -- meaning no knowledge of implementation details is required.
+Enhancement realizations are similar in the sense that any operation called within the context of an enhancement realization refers to the operation specified in the concept -- meaning no knowledge of its implementation details are required.
 
 \subsection{Verification}
 
-We now turn to the task of verifying our small toggling enhancement. The first step in doing so is to generate Verification Conditions (VCs) for \texttt{Toggle\_Realiz}, which, if proven, will establish the correctness of this particular implementation. One thing to note about the VCs themselves is that they are generated from specific lines of a realization, and exist to ensure that the content of the realization is consistent with its specification: This entails checking for things such as array access boundary violations, etc.  
+We now turn to the task of verifying our small toggling enhancement. The first step in doing so is to generate Verification Conditions (VCs) for \texttt{Toggle\_Realiz}, which, if proven, will establish the correctness of this particular implementation. One thing to note about the VCs themselves is that they are generated from specific lines of a realization, and exist to ensure that the content of the realization is consistent with its specification: This entails checking for array access violations, parameters not meeting preconditions, etc.  
 
 \begin{figure}[!htb]
 \centering
@@ -90,16 +87,18 @@ We now turn to the task of verifying our small toggling enhancement. The first s
 	\toprule
 	Condition \# & Time (ms)	& Steps	& Search \\
 	\midrule
-	VC 0\_1	& 4426	& 5	& 0	\\
-	VC 0\_2	& 5039	& 5	& 0	\\
-	VC 0\_3	& 6324	& 6	& 0	\\
+	VC 0\_1	& 7009	& 6	& 0	\\
+	VC 0\_2	& 5185	& 5	& 0	\\
+	VC 0\_3	& 3354	& 6	& 0	\\
+	VC 0\_4	& 4810	& 5	& 0	\\
+	VC 0\_5	& 7133	& 5	& 0	\\
 	\bottomrule
 \end{tabular}
 \caption{Verification results for operation \texttt{Toggle}}
 \label{fig:results}
 \end{figure}
 
-As the results summarized in Figure \ref{fig:results} indicate, using RESOLVE's integrated prover, we are able to mechanically and automatically dispatch all VCs for \texttt{Toggling\_Realiz}, thus verifying its correctness. In terms of proof difficulty, given the number of steps and time taken to establish each, we conclude that the VCs generated were of a straightforward variety. Readers interested however in learning more about the steps and specific actions the prover takes in transforming givens and dispatching similar (and more complex) VCs should refer to \cite{smith:2013}.
+As the results summarized in Figure \ref{fig:results} indicate, using RESOLVE's integrated prover, we are able to mechanically and automatically dispatch all VCs for \texttt{Toggling\_Realiz}, thus verifying its correctness. In terms of proof difficulty, given the number of steps and time taken to establish each goal, we conclude that the VCs generated are of a straightforward variety. Readers interested however in learning more about the steps and specific actions the prover takes in transforming givens and dispatching similar (and more complex) VCs should refer to \cite{smith:2013}.
 
 \subsection{Facilities}
 \label{sec:facilities}
@@ -120,38 +119,34 @@ Facility LED_Telos_Demo;
     Operation Main(); Procedure
     
         (* Declare LED strip indices *)
-        Var I1, I2, I3 : Integer;
+        Var I0, I1, I2 : Integer;
         Var Loop : Boolean;
         
         (* Declare an LED strip *)
         Var L : Led;
         
-        I1 := 1; I2 := 2; I3 := 3;
+        I0 := 0; I1 := 1; I2 := 2;
         
         Loop := True();
         While(Loop)
             changing Loop;
             maintaining ...
         do
+            Leds_Fac.Toggle(L, I0);
+            Std_Clock_Fac.Wait_500_Milli_Seconds();
+            
             Leds_Fac.Toggle(L, I1);
             Std_Clock_Fac.Wait_500_Milli_Seconds();
             
             Leds_Fac.Toggle(L, I2);
-            Std_Clock_Fac.Wait_500_Milli_Seconds();
-            
-            Leds_Fac.Toggle(L, I3);
             Std_Clock_Fac.Wait_500_Milli_Seconds();
         end;
     end Main;
     
 end LED_Telos_Demo;
 \end{verbatim}
-%smaller file sizes
-%reusable code
-%only have to translate a file once
-% be able to say that the code we have is the code that was verified.
-% our approach takes less ROM. Its not less efficient, it is differently efficient.
-Prior to using the LED component developed in the previous sections, we first must bind our \texttt{LED\_Template} specification with an appropriate realization. This is accomplished via the facility declaration located directly beneath the \texttt{uses} clause, which pairs the specification (\texttt{LED\_Template}) with a realization (\texttt{Std\_Led\_Realiz}). Note that the ability to toggle is added \textit{on top} of this facility declaration in a similar fashion. The remaining bulk of logic driving the application rests in the non terminating busy loop inside operation \texttt{Main}, where we use our enhancement-provided \texttt{Toggle} operation to successively turn each light within the strip on, then off.
+
+Prior to using the LED component developed in the previous sections, we first must bind our \texttt{LED\_Template} specification with an appropriate realization. This is accomplished via the facility declaration located directly beneath the \texttt{uses} clause, which pairs the specification (\texttt{LED\_Template}) with a realization (\texttt{Std\_Led\_Realiz}). Note that the ability to toggle is added \textit{on top} of this facility declaration in a similar fashion. The remaining bulk of logic driving the application rests in the non terminating busy loop inside operation \texttt{Main}, where we use our enhancement-provided \texttt{Toggle} operation to successively turn each LED within the strip on, then off.
 
 \subsection{``External'' Realization Support}
 \label{ssec:external}
@@ -159,12 +154,12 @@ Prior to using the LED component developed in the previous sections, we first mu
 \begin{figure*}[!htb]
 \centering
 \includegraphics[scale=.55]{figs/component_graph.pdf}
-\caption{A diagram illustrating inter-component relationships for the example in Section 3. The files listed in cloud shapes indicate externally realized components, while the dotted line separating these from others indicates the current boundary between the lowest-level, hardcoded components in RESOLVE, and native RESOLVE abstractions sitting on top of these hardcoded components.}
+\caption{A diagram illustrating inter-component relationships for the example detailed in Section 3. Files displayed in clouds indicate externally realized components, while dotted line separating these from others indicates the current boundary between low-level, hardcoded components, and native RESOLVE abstractions.}
 \end{figure*}
 \label{fig:imp}
 
 
-Readers might note that we never presented a realization of \texttt{LED\_Template}. Indeed, after having written the concept, the RESOLVE programmer would ideally provide it with a verifiable, native RESOLVE implementation. However, as our target platform is embedded, and our concept aims to provide control for LEDs -- a decidedly low level feature on embedded hardware -- our realization is forced to operate at similarly low levels by directly manipulating hardware pins provided by the msp430's chipset. 
+Readers might note that we never presented a realization of \texttt{LED\_Template}. Indeed, after having written the concept, the RESOLVE programmer would ideally provide a verifiable, native RESOLVE implementation. However, as our target platform is embedded, and our concept aims to provide control for LEDs -- a decidedly low level feature on embedded hardware -- our realization is forced to operate at similarly low levels by directly manipulating hardware pins provided by the msp430's chipset. 
 
 RESOLVE, however, in its current state is too high level of a language to perform these tasks directly -- meaning it lacks the appropriate driver and language support to do so. In an effort to address this, we introduce the notion of \textit{external realizations}, which allow users to write their own realization of a concept in a language of their choosing.
 
@@ -178,7 +173,7 @@ The \texttt{LED\_Telos\_Demo} facility above demonstrates these developments thr
 
 We feel this new keyword is beneficial for the following reasons:
 \begin{itemize}
-\item The language no longer must ``hide" the fact that some of the lower level components relied upon are not written in straight-line, native RESOLVE code. The ``externally" keyword now transparently indicates this.
+\item The language no longer must ``hide" the fact that some of the lower level components relied upon are not written in straight-line, native RESOLVE. The ``externally" keyword now transparently indicates this.
 \item Provides flexibility for those users looking to wrap their low-level programs/drivers with formal RESOLVE interface specifications.
 \end{itemize}
 
