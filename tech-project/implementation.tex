@@ -68,7 +68,7 @@ We feel this approach lends itself well to the challenge discussed in this paper
 %%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Strategy for Dynamic Memory Allocation}\label{sec:mem}
 
-Any model seeking to convert RESOLVE to a lower level representation such as C demands a strategy for handling memory utilized by the generated code. While dynamic allocation is typically the norm, it is not however the first choice for embedded applications. With the Telosb mote constrained to 128 bytes of RAM, developers targeting embedded platforms tend to favor static memory allocation over dynamic, due the memory efficiency it affords. 
+Any model seeking to convert RESOLVE to a lower level representation such as C demands a strategy for handling memory utilized by the generated code. While dynamic allocation is typically the norm, it is not however the first choice for embedded applications. With the Telosb mote constrained to 10kB of RAM, developers targeting embedded platforms tend to favor static memory allocation over dynamic, due the memory efficiency it affords. 
 
 %Many programs however benefit greatly from dynamic memory allocation not only in terms of clarity and straightforwardness, but in our case: Accurately modeling exactly what the code being executed is doing. 
 %NesC, for example, while giving the illusion of dynamic allocation, behind the scenes actually performs static allocation 
