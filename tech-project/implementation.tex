@@ -81,7 +81,7 @@ The previous iteration of this tool \cite{regula:2010} achieves static allocatio
 
 \subsubsection{Allocation using ``salloc''}
 
-The dynamic allocatior we create for our generated code is \texttt{salloc()}: A first fit memory allocator. Rather than conventional, heap-based allocators, \texttt{salloc()} uses stack memory for allocation. This approach requires that a single fixed block of memory is chosen at compilation. In addition, \texttt{salloc()}, requires a section of meta-data, denoted as a \texttt{block}, for each record in memory. A \texttt{block} holds referential information about neighboring blocks, the size of the record the block maintains, and if the block is free or is in use. Figure~\ref{fig:stack} is an example of the stack after several calls to \texttt{salloc()}.
+The dynamic allocator we create for our generated code is \texttt{salloc()}: A first fit memory allocator. Rather than conventional, heap-based allocators, \texttt{salloc()} uses stack memory for allocation. This approach requires that a single fixed block of memory is chosen at compilation. In addition, \texttt{salloc()}, requires a section of meta-data, denoted as a \texttt{block}, for each record in memory. A \texttt{block} holds referential information about neighboring blocks, the size of the record the block maintains, and if the block is free or is in use. Figure~\ref{fig:stack} is an example of the stack after several calls to \texttt{salloc()}.
 
 \begin{figure}[!htb]
 %\centering
