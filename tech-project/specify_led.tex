@@ -30,7 +30,7 @@ Concept LED_Template(eval Strip_Length: Integer);
         requires 0 <= i < |L|;
         ensures Status = Element_At(i, #L);
         
-end LEDs_Template;
+end LED_Template;
 \end{verbatim}
 
 We model our conceptual LED strip using a mathematical string (finite sequence) of booleans, denoted \texttt{Str(B)}, where each boolean within the string indicates the status of that particular LED: On (true) or off (false). The \texttt{exemplar} clause located immediately below provides a handle to this abstract model, and is used throughout the remainder of the specification.
@@ -111,8 +111,8 @@ Facility LED_Telos_Demo;
     uses Std_Clock_Fac, Std_Boolean_Fac, 
             Std_Integer_Fac;
     
-    Facility Leds_Fac is LED_Template(3)
-        externally realized by Std_Led_Realiz
+    Facility LED_Fac is LED_Template(3)
+        externally realized by Std_LED_Realiz
      enhanced by Toggling_Capability
         realized by Toggling_Realiz;
         
@@ -123,7 +123,7 @@ Facility LED_Telos_Demo;
         Var Loop : Boolean;
         
         (* Declare an LED strip *)
-        Var L : Led;
+        Var L : LED;
         
         I0 := 0; I1 := 1; I2 := 2;
         
@@ -132,13 +132,13 @@ Facility LED_Telos_Demo;
             changing Loop;
             maintaining ...
         do
-            Leds_Fac.Toggle(L, I0);
+            LED_Fac.Toggle(L, I0);
             Std_Clock_Fac.Wait_500_Milli_Seconds();
             
-            Leds_Fac.Toggle(L, I1);
+            LED_Fac.Toggle(L, I1);
             Std_Clock_Fac.Wait_500_Milli_Seconds();
             
-            Leds_Fac.Toggle(L, I2);
+            LED_Fac.Toggle(L, I2);
             Std_Clock_Fac.Wait_500_Milli_Seconds();
         end;
     end Main;

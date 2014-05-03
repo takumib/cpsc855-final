@@ -112,10 +112,6 @@ A common problem that can occur in memory allocation is fragmentation. During ex
 This technique is applied during deallocation. When memory is deallocated by \texttt{sfree()}, neighboring free blocks containing unused memory are coalesced into a single large block, as shown in Figure~\ref{fig:fuse}.
 \end{itemize} 
 
-%The first is block splitting, as shown in Figure~\ref{fig:split}, occurs during allocation. It allows blocks of greater size to be partitioned into the size requested by the allocator. 
-
-%Fusing blocks is another technique used when \texttt{sfree()} is called. When memory is deallocated, neighboring free blocks are coalesced to form a single large block, as shown in Figure~\ref{fig:fuse}. 
-
 \begin{figure}[!htb]
 \centering
 \includegraphics[scale=.55]{figs/fragmentation.pdf}
@@ -137,6 +133,6 @@ This technique is applied during deallocation. When memory is deallocated by \te
 \caption{Block fusing. This creates single larger block, decreasing the number of smaller blocks unable to split.}
 \label{fig:fuse}
 \end{figure}
-
+ 
 %
 %

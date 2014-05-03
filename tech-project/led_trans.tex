@@ -1,4 +1,4 @@
-\section{Putting It All Together}
+\section{EVALUATION}
 
 \begin{figure*}
 \begin{minipage}{0.4\textwidth}
@@ -63,9 +63,9 @@ void LED_Telos_Demo_destroy() {
 
 Given our RESOLVE realization of the \texttt{LED\_Telos\_Demo} described in Section 3, we now discuss our translator's output in greater detail.
 
-Depicted in figure \ref{fig:demo} is the C translation of \texttt{LED\_Telos\_Demo} consisting of a .h (left) and a portion of the .c (right). The \texttt{LED\_Telos\_Demo\_create()} function provides instantiations for all global facilities used in \texttt{LED\_Telos\_Demo}, including those for standard types such as integers, booleans, clock, as well as local facilities such as \texttt{Leds\_Fac}. One additional thing to note within this create method is the temporary \texttt{\_\_arg\_0} integer variable -- representing the formal value \texttt{Strip\_Length} found within the concept. Note that this variable does not appear in the original source, but rather, is created by the translator in an effort to keep track of all literal argument values that require manual deletion (as illustrated after the assignment of \texttt{Toggling\_Capability}).
+Depicted in figure \ref{fig:demo} is the C translation of \texttt{LED\_Telos\_Demo} consisting of a .h (left) and a portion of the .c (right). The \texttt{LED\_Telos\_Demo\_create()} function provides instantiations for all global facilities used in \texttt{LED\_Telos\_Demo}, including those for standard types such as integers, booleans, clock, as well as local facilities such as \texttt{LED\_Fac}. One additional thing to note within this create method is the temporary \texttt{\_\_arg\_0} integer variable -- representing the formal value \texttt{Strip\_Length} found within the concept. Note that this variable does not appear in the original source, but rather, is created by the translator in an effort to keep track of all literal argument values that require manual deletion (as illustrated after the assignment of \texttt{Toggling\_Capability}).
 
-The \texttt{Leds\_Fac} facility from the original source, represented here as a struct, uses a \texttt{core} field to access the methods and types found in the original concept, while any remaining fields correspond to enhancement pointers that serve a similar end -- in this case, providing access to the operations declared within  \texttt{Toggling\_Capability}.
+The \texttt{LED\_Fac} facility from the original source, represented here as a struct, uses a \texttt{core} field to access the methods and types found in the original concept, while any remaining fields correspond to enhancement pointers that serve a similar end -- in this case, providing access to the operations declared within  \texttt{Toggling\_Capability}.
 
 Clearly, facilities and other modules highly reliant on instantiated facilities are no doubt going to consume much more memory than the small example detailed here -- as each would (naively) be represented as a struct. To help alleviate some of this memory usage, we make special considerations in the translator to only create structs for \textit{enhanced} facilities. That is, \textit{unenhanced} facilities (comprising structs with only a single \texttt{core} field) are not created, but rather, dereferenced manually within the source via their \texttt{core} field.
 
